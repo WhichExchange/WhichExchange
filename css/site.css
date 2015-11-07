@@ -1,0 +1,17 @@
+
+.logo {
+    font-size: 30px;
+    text-align: center;
+}
+
+.slogan {
+    text-align: center;
+}
+
+.question {
+    text-align: center;
+}
+
+.btn-danger {
+    border-radius: 0;
+}
