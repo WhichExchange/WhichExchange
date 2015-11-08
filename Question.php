@@ -1,5 +1,7 @@
 <?php
 
+require_once 'Keys.php';
+
 class Question
 {
     private $question_sent = false;
@@ -53,6 +55,7 @@ class Question
     {
         $sort = $this->sort;
         $order = $this->order;
+        $key = Keys::$stackOverflowKey;
         if ($this->question_sent === true) {
             throw new \Exception('already sent question');
         }
@@ -71,7 +74,7 @@ class Question
         $rand_site = $this->sites[$rand_site_index];
         $this->site = $rand_site;
 
-        $url = $this->url_form . "order=$order&sort=$sort&site=$rand_site";
+        $url = $this->url_form . "order=$order&sort=$sort&site=$rand_site&key=$key";
         // @TODO file_get_contents($uri);
         $http_request = shell_exec("curl --compressed -s \"$url\"");
         $request_as_array = json_decode($http_request, true);
