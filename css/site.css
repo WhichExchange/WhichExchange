@@ -1,17 +1,39 @@
 
+body {
+    background-color: #FFFFCC;
+}
+
 .logo {
     font-size: 30px;
     text-align: center;
+    margin-top: 25px;
+    margin-bottom: 15px;
 }
 
 .slogan {
     text-align: center;
+    margin-bottom: 25px;
+}
+
+.question-container {
+    display: none;
 }
 
 .question {
     text-align: center;
 }
 
+.answers {
+    text-align: center;
+}
+
 .btn-danger {
+
+}
+
+.btn-answer {
     border-radius: 0;
+    line-height: 75px;
+    min-height: 75px;
+    min-width: 200px;
 }
