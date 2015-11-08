@@ -30,6 +30,11 @@ body {
 
 .skittles {
     text-align: center;
+    margin-top: 10px;
+}
+
+.view-on-se {
+    margin-right: 10px;
 }
 
 .btn-answer {
