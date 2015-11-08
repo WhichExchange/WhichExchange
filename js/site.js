@@ -28,7 +28,7 @@ function loadQuestion() {
                 $('.question h4').text(currentQuestion.q.title);
                 for (var i = 0; i < 4; i++) {
                     var button = $('.btn' + i);
-                    button.animate({ backgroundColor: '#FFFFFF' }, 'fast', 'linear');
+                    button.stop().animate({ backgroundColor: '#FFFFFF' }, 'fast', 'linear');
                     button
                         .text(currentQuestion.question_choices[i])
                         .click(questionClicked);
