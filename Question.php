@@ -7,17 +7,23 @@ class Question
     private $question_sent = false;
     private $sites = array();
     private $url_form = "https://api.stackexchange.com/2.2/questions?";
-    public $sort = 'creation';
+    public $sort = 'votes';
     public $order = 'desc';
     public $site = null;
     public $q = null;
     public $question_choices = null;
     public $quota = null;
 
+    public $timeIntervals;
+
     //@Override
     public function __construct()
     {
-        
+        $this->timeIntervals = array(
+            'oneMonth' => strtotime('-30 days'),
+            'sixMonths' => strtotime('-180 days'),
+            'allTime' => 0
+        );
     }
 
     public function add_site($site)
@@ -57,6 +63,14 @@ class Question
         $sort = $this->sort;
         $order = $this->order;
         $key = Keys::$stackOverflowKey;
+
+        session_start();
+        if (isset($_SESSION['time'])) {
+            $fromDate = $this->timeIntervals[$_SESSION['time']];
+        } else {
+            $fromDate = $this->timeIntervals['oneMonth'];
+        }
+
         if ($this->question_sent === true) {
             throw new \Exception('already sent question');
         }
@@ -75,14 +89,22 @@ class Question
         $rand_site = $this->sites[$rand_site_index];
         $this->site = $rand_site;
 
-        $url = $this->url_form . "order=$order&sort=$sort&site=$rand_site&key=$key";
+        $url = $this->url_form . "order=$order&sort=$sort&site=$rand_site&key=$key&fromDate=$fromDate";
         // @TODO file_get_contents($uri);
         $http_request = shell_exec("curl --compressed -s \"$url\"");
         $request_as_array = json_decode($http_request, true);
         $request_items = $request_as_array['items'];
 
-        $question_rand_index = array_rand($request_items);
-        $question_rand = $request_items[$question_rand_index];
+        $attempts = 0;
+        do {
+            $question_rand_index = array_rand($request_items);
+            $question_rand = $request_items[$question_rand_index];
+            $attempts++;
+
+            $question_rand['title'] = htmlspecialchars_decode($question_rand['title']);
+
+        } while (strpos('"', $question_rand['title']) !== false && $attempts < 50);
+
         $this->q = $question_rand;
         $this->quota = $request_as_array['quota_remaining'];
 

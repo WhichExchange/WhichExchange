@@ -8,6 +8,14 @@ $(function () {
     $('.next-question').click(function() {
         $('.question-container').fadeOut(null, loadQuestion);
     });
+
+    $('.settings').popover({
+        content: generateSettingsPopover(),
+        html: true,
+        placement: 'left',
+        trigger: 'focus'
+    });
+    $('[data-toggle="popover"]').popover();
 });
 
 function loadQuestion() {
@@ -53,7 +61,15 @@ function loadQuestion() {
     );
 }
 
+function generateSettingsPopover() {
+    return '<div>Time window:</div><br/>' +
+        '<a href="javascript:void(0)" onclick="oneMonth()" class="btn btn-default btn-time btn-one">1 month</a><br/>' +
+        '<a href="javascript:void(0)" onclick="sixMonths()" class="btn btn-default btn-time btn-six">6 Months</a><br/>' +
+        '<a href="javascript:void(0)" onclick="allTime()" class="btn btn-default btn-time btn-alltime">All Time</a>';
+}
+
 function questionClicked() {
+    $(this).blur();
     $('.skittles').fadeIn();
     $('a.view-on-se').attr('href', currentQuestion.q.link);
     console.log('link: ' + currentQuestion.q.link);
@@ -64,4 +80,30 @@ function questionClicked() {
         $(this).animate({ backgroundColor: '#FF9999' }, 'fast', 'linear');
         correctButton.animate({ backgroundColor: '#82FFAC' }, 'fast', 'linear')
     }
+}
+
+function oneMonth() {
+    setTimeInterval('oneMonth');
+}
+
+function sixMonths() {
+    setTimeInterval('sixMonths');
+}
+
+function allTime() {
+    setTimeInterval('allTime');
+}
+
+function setTimeInterval(timeInterval) {
+    $.ajax(
+        'time.php',
+        {
+            method: 'POST',
+            data: {
+                time: timeInterval
+            },
+            success: loadQuestion
+
+        }
+    );
 }
