@@ -5,19 +5,21 @@ var failures = 0;
 
 $(function () {
     loadQuestion();
-    $('.next-question a').click(function() {
+    $('.next-question').click(function() {
         $('.question-container').fadeOut(null, loadQuestion);
     });
 });
 
 function loadQuestion() {
-    $('.next-question a').hide();
+    $('.skittles').fadeOut();
     $.ajax(
         'question_get.php',
         {
             method: 'GET',
             success: function(data) {
                 failures = 0;
+
+                console.log(data);
 
                 currentQuestion = JSON.parse(data);
 
@@ -52,7 +54,9 @@ function loadQuestion() {
 }
 
 function questionClicked() {
-    $('.next-question a').show();
+    $('.skittles').fadeIn();
+    $('a.view-on-se').attr('href', currentQuestion.q.link);
+    console.log('link: ' + currentQuestion.q.link);
     var text = $(this).text();
     if (text === currentQuestion.site) {
         $(this).animate({ backgroundColor: '#82FFAC' }, 'fast', 'linear');
