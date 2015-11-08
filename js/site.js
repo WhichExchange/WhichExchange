@@ -6,7 +6,11 @@ var failures = 0;
 $(function () {
     loadQuestion();
     $('.next-question').click(function() {
-        $('.question-container').fadeOut(null, loadQuestion);
+        for (var i = 0; i < 4; i++) {
+            var button = $('.btn' + i);
+            button.animate({ backgroundColor: '#FFFFFF' }, 'fast');
+        }
+        $('.question-container').fadeOut('normal', loadQuestion);
     });
 
     $('.settings').popover({
@@ -25,6 +29,7 @@ function loadQuestion() {
         {
             method: 'GET',
             success: function(data) {
+
                 failures = 0;
 
                 console.log(data);
@@ -34,10 +39,10 @@ function loadQuestion() {
                 $('p#quota-info').text('Quota limit remaining: ' + currentQuestion.quota);
 
                 $('.question h4').text(currentQuestion.q.title);
+
                 for (var i = 0; i < 4; i++) {
                     var button = $('.btn' + i);
                     button.css("background-color","#FFFFFF");
-                    button.stop();
                     button
                         .text(currentQuestion.question_choices[i])
                         .click(questionClicked);
