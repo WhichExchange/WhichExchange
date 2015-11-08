@@ -2,6 +2,7 @@
 var currentQuestion;
 var correctButton;
 var failures = 0;
+var chrisIsTheWeirdOne = false;
 
 $(function () {
     loadQuestion();
@@ -20,9 +21,14 @@ $(function () {
         trigger: 'focus'
     });
     $('[data-toggle="popover"]').popover();
+
+    $('.view-on-se').click(function() {
+        $(this).blur();
+    })
 });
 
 function loadQuestion() {
+    chrisIsTheWeirdOne = false;
     $('.skittles').fadeOut();
     $.ajax(
         'question_get.php',
@@ -75,16 +81,19 @@ function generateSettingsPopover() {
 }
 
 function questionClicked() {
-    $(this).blur();
-    $('.skittles').fadeIn();
-    $('a.view-on-se').attr('href', currentQuestion.q.link);
-    console.log('link: ' + currentQuestion.q.link);
-    var text = $(this).text();
-    if (text === currentQuestion.site) {
-        $(this).stop().animate({ backgroundColor: '#82FFAC' }, 'fast', 'linear');
-    } else {
-        $(this).stop().animate({ backgroundColor: '#FF9999' }, 'fast', 'linear');
-        correctButton.stop().animate({ backgroundColor: '#82FFAC' }, 'fast', 'linear')
+    if (!chrisIsTheWeirdOne) {
+        chrisIsTheWeirdOne = true;
+        $(this).blur();
+        $('.skittles').fadeIn();
+        $('a.view-on-se').attr('href', currentQuestion.q.link);
+        console.log('link: ' + currentQuestion.q.link);
+        var text = $(this).text();
+        if (text === currentQuestion.site) {
+            $(this).stop().animate({ backgroundColor: '#82FFAC' }, 'fast', 'linear');
+        } else {
+            $(this).stop().animate({ backgroundColor: '#FF9999' }, 'fast', 'linear');
+            correctButton.stop().animate({ backgroundColor: '#82FFAC' }, 'fast', 'linear')
+        }
     }
 }
 
