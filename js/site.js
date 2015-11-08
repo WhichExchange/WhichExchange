@@ -3,10 +3,14 @@ var currentQuestion;
 var correctButton;
 
 $(function () {
-    loadQuestion(currentQuestion);
+    loadQuestion();
+    $('.next-question a').click(function() {
+        $('.question-container').fadeOut(null, loadQuestion);
+    });
 });
 
-function loadQuestion(question) {
+function loadQuestion() {
+    $('.next-question a').hide();
     $.ajax(
         'question_get.php',
         {
@@ -16,9 +20,10 @@ function loadQuestion(question) {
 
                 console.log(data);
 
-                $('.question div').text(currentQuestion.q.title);
+                $('.question h4').text(currentQuestion.q.title);
                 for (var i = 0; i < 4; i++) {
                     var button = $('.btn' + i);
+                    button.animate({ backgroundColor: '#FFFFFF' }, 'fast', 'linear');
                     button
                         .text(currentQuestion.question_choices[i])
                         .click(questionClicked);
@@ -35,6 +40,7 @@ function loadQuestion(question) {
 }
 
 function questionClicked() {
+    $('.next-question a').show();
     var text = $(this).text();
     if (text === currentQuestion.site) {
         $(this).animate({ backgroundColor: '#82FFAC' }, 'fast', 'linear');

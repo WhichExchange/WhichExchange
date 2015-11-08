@@ -19,8 +19,9 @@ body {
     display: none;
 }
 
-.question {
+.question div {
     text-align: center;
+    margin-bottom: 20px;
 }
 
 .answers {
@@ -32,8 +33,13 @@ body {
 }
 
 .btn-answer {
-    border-radius: 0;
+    border-radius: 15;
     line-height: 75px;
     min-height: 75px;
     min-width: 200px;
+    margin-bottom: 10px;
+}
+
+div.next-question {
+    text-align: center;
 }
