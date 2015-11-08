@@ -1,5 +1,7 @@
 <?php
-class Question {
+
+class Question
+{
     private $question_sent = false;
     private $sites = array();
     private $url_form = "https://api.stackexchange.com/2.2/questions?";
@@ -7,6 +9,7 @@ class Question {
     public $order = 'desc';
     public $site = null;
     public $q = null;
+    public $question_choices = null;
 
     //@Override
     public function __construct()
@@ -77,6 +80,8 @@ class Question {
         $question_rand_index = array_rand($request_items);
         $question_rand = $request_items[$question_rand_index];
         $this->q = $question_rand;
+
+        $this->get_question_choices();
     }
 
     public function get_question_choices()
@@ -93,7 +98,7 @@ class Question {
             if (in_array($ind, $rand_indices)) {
                 continue;
             }
-            array_push($rand_indices,$ind);
+            array_push($rand_indices, $ind);
         }
         for ($i = 0; $i<count($rand_indices); $i++) {
             $rand_indices[$i] = $this->sites[$rand_indices[$i]];
@@ -103,7 +108,7 @@ class Question {
             $put_index = array_rand($rand_indices);
             $rand_indices[$put_index] = $this->site;
         }
-        return $rand_indices;
+        $this->question_choices = $rand_indices;
     }
 }
 

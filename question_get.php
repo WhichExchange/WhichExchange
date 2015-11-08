@@ -1,5 +1,5 @@
 <?php
-require_once 'we.php'; //fugg
+require_once 'Question.php'; //fugg
 $q = new Question();
 $sites = array('stackoverflow', 'ux', 'unix', 'askubuntu', 'softwarerecs', 'programmers');
 $q->add_sites($sites);
