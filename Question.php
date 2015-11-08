@@ -26,7 +26,7 @@ class Question
         );
     }
 
-    public function add_site($site)
+    public function addSite($site)
     {
         if ($this->question_sent === true) {
             throw new \Exception('Question already sent; sites may not be edited');
@@ -37,7 +37,7 @@ class Question
         array_push($this->sites, $site);
     }
 
-    public function clear_sites()
+    public function clearSites()
     {
         if ($this->question_sent === true) {
             throw new \Exception('Question already sent; sites may not be edited');
@@ -45,7 +45,7 @@ class Question
         $this->sites = array();
     }
 
-    public function add_sites($site_list)
+    public function addSites($site_list)
     {
         if ($this->question_sent === true) {
             throw new \Exception('Question already sent; sites may not be edited');
@@ -53,12 +53,12 @@ class Question
         if (!is_array($site_list)) {
             throw new \InvalidArgumentException();
         }
-        foreach($site_list as $site) {
-            $this->add_site($site);
+        foreach ($site_list as $site) {
+            $this->addSite($site);
         }
     }
 
-    public function send_question()
+    public function sendQuestion()
     {
         $sort = $this->sort;
         $order = $this->order;
@@ -108,11 +108,11 @@ class Question
         $this->q = $question_rand;
         $this->quota = $request_as_array['quota_remaining'];
 
-        $this->get_question_choices();
+        $this->getQuestionChoices();
 
     }
 
-    public function get_question_choices()
+    public function getQuestionChoices()
     {
         if ($this->question_sent !== true) {
             throw new \Exception('Question not sent yet');
@@ -140,4 +140,3 @@ class Question
 
     }
 }
-

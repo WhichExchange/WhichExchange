@@ -11,6 +11,6 @@ $sites = array(
     'serverfault',
     'superuser'
 );
-$q->add_sites($sites);
-$q->send_question();
+$q->addSites($sites);
+$q->sendQuestion();
 echo htmlspecialchars_decode(json_encode($q), ENT_QUOTES);
