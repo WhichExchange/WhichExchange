@@ -20,6 +20,8 @@ function loadQuestion() {
 
                 console.log(data);
 
+                $('p#quota-info').text('Quota limit remaining: ' + currentQuestion.quota);
+
                 $('.question h4').text(currentQuestion.q.title);
                 for (var i = 0; i < 4; i++) {
                     var button = $('.btn' + i);

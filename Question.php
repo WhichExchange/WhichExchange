@@ -12,6 +12,7 @@ class Question
     public $site = null;
     public $q = null;
     public $question_choices = null;
+    public $quota = null;
 
     //@Override
     public function __construct()
@@ -83,8 +84,10 @@ class Question
         $question_rand_index = array_rand($request_items);
         $question_rand = $request_items[$question_rand_index];
         $this->q = $question_rand;
+        $this->quota = $request_as_array['quota_remaining'];
 
         $this->get_question_choices();
+
     }
 
     public function get_question_choices()
@@ -112,6 +115,7 @@ class Question
             $rand_indices[$put_index] = $this->site;
         }
         $this->question_choices = $rand_indices;
+
     }
 }
 
