@@ -108,7 +108,9 @@ function setTimeInterval(timeInterval) {
             data: {
                 time: timeInterval
             },
-            success: loadQuestion
+            success: function() {
+                $('.question-container').fadeOut(null, loadQuestion);
+            }
 
         }
     );
