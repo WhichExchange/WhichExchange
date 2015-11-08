@@ -1,6 +1,7 @@
 
 var currentQuestion;
 var correctButton;
+var failures = 0;
 
 $(function () {
     loadQuestion();
@@ -16,9 +17,9 @@ function loadQuestion() {
         {
             method: 'GET',
             success: function(data) {
-                currentQuestion = JSON.parse(data);
+                failures = 0;
 
-                console.log(data);
+                currentQuestion = JSON.parse(data);
 
                 $('p#quota-info').text('Quota limit remaining: ' + currentQuestion.quota);
 
@@ -36,6 +37,15 @@ function loadQuestion() {
                 }
 
                 $('.question-container').fadeIn();
+            },
+            error: function() {
+                // try again
+                failures++;
+                if (failures > 10) {
+                    // something is terribly wrong, just let it fail
+                    return
+                }
+                setTimeout(loadQuestion, 0);
             }
         }
     );
