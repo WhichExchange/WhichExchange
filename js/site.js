@@ -37,6 +37,7 @@ function loadQuestion() {
                 for (var i = 0; i < 4; i++) {
                     var button = $('.btn' + i);
                     button.css("background-color","#FFFFFF");
+                    button.stop();
                     button
                         .text(currentQuestion.question_choices[i])
                         .click(questionClicked);
