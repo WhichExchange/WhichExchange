@@ -42,7 +42,7 @@ function loadQuestion() {
 
                 for (var i = 0; i < 4; i++) {
                     var button = $('.btn' + i);
-                    button.css("background-color","#FFFFFF");
+                    button.stop().css("background-color","#FFFFFF");
                     button
                         .text(currentQuestion.question_choices[i])
                         .click(questionClicked);
@@ -81,10 +81,10 @@ function questionClicked() {
     console.log('link: ' + currentQuestion.q.link);
     var text = $(this).text();
     if (text === currentQuestion.site) {
-        $(this).animate({ backgroundColor: '#82FFAC' }, 'fast', 'linear');
+        $(this).stop().animate({ backgroundColor: '#82FFAC' }, 'fast', 'linear');
     } else {
-        $(this).animate({ backgroundColor: '#FF9999' }, 'fast', 'linear');
-        correctButton.animate({ backgroundColor: '#82FFAC' }, 'fast', 'linear')
+        $(this).stop().animate({ backgroundColor: '#FF9999' }, 'fast', 'linear');
+        correctButton.stop().animate({ backgroundColor: '#82FFAC' }, 'fast', 'linear')
     }
 }
 
@@ -109,7 +109,7 @@ function setTimeInterval(timeInterval) {
                 time: timeInterval
             },
             success: function() {
-                $('.question-container').fadeOut(null, loadQuestion);
+                $('.question-container').fadeOut('normal', loadQuestion);
             }
 
         }
