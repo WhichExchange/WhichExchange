@@ -42,7 +42,12 @@ function loadQuestion() {
 
                 currentQuestion = JSON.parse(data);
 
-                $('p#quota-info').text('Quota limit remaining: ' + currentQuestion.quota);
+                if (currentQuestion.has_key == false) {
+                    $('p#quota-info').text('Quota limit remaining: ' + currentQuestion.quota + ' (NO KEY PROVIDED)');
+                } else {
+                    $('p#quota-info').text('Quota limit remaining: ' + currentQuestion.quota);
+                }
+
 
                 $('.question h4').text(currentQuestion.q.title);
 

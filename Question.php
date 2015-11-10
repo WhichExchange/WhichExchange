@@ -1,12 +1,11 @@
 <?php
 
-require_once 'Keys.php';
-
 class Question
 {
     private $question_sent = false;
     private $sites = array();
     private $url_form = "https://api.stackexchange.com/2.2/questions?";
+    public $has_key = false;
     public $sort = 'votes';
     public $order = 'desc';
     public $site = null;
@@ -62,7 +61,6 @@ class Question
     {
         $sort = $this->sort;
         $order = $this->order;
-        $key = Keys::$stackOverflowKey;
 
         session_start();
         if (isset($_SESSION['time'])) {
@@ -89,7 +87,13 @@ class Question
         $rand_site = $this->sites[$rand_site_index];
         $this->site = $rand_site;
 
-        $url = $this->url_form . "order=$order&sort=$sort&site=$rand_site&key=$key&fromDate=$fromDate";
+        $url = $this->url_form . "order=$order&sort=$sort&site=$rand_site&fromDate=$fromDate";
+        if (@include('Keys.php')) {
+            $key = Keys::$stackOverflowKey;
+            $url .= "&key=$key";
+            $this->has_key = true;
+        }
+
         // @TODO file_get_contents($uri);
         $http_request = shell_exec("curl --compressed -s \"$url\"");
         $request_as_array = json_decode($http_request, true);
