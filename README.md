@@ -34,4 +34,4 @@ Yes, fun-killer.
 ## About
 Created by [Giovanni Carvelli](https://github.com/gcarvelli) and [Chris Sprague](https://github.com/chrissprague) at HackNJIT 2015.
 
-Based on an idea of the same premise discussed in the StackExchange podcast - I forget which number it was :(
+Based on an idea of the same premise discussed in the StackExchange podcast episode #57
