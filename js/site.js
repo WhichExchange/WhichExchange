@@ -29,7 +29,7 @@ $(function () {
 
 function loadQuestion() {
     chrisIsTheWeirdOne = false;
-    $('.skittles').fadeOut();
+    $('.skittles').hide();
     $.ajax(
         'question_get.php',
         {
@@ -63,7 +63,7 @@ function loadQuestion() {
                     }
                 }
 
-                $('.question-container').fadeIn();
+                $('.question-container').slideDown(800);
             },
             error: function() {
                 // try again
@@ -89,7 +89,7 @@ function questionClicked() {
     if (!chrisIsTheWeirdOne) {
         chrisIsTheWeirdOne = true;
         $(this).blur();
-        $('.skittles').fadeIn();
+        $('.skittles').slideDown();
         $('a.view-on-se').attr('href', currentQuestion.q.link);
         console.log('link: ' + currentQuestion.q.link);
         var text = $(this).text();
