@@ -1,4 +1,7 @@
 ## WhichExchange
+
+[Try it out!](http://kwikthinkers.xyz/whichexchange/)
+
 A simple web app game in which the player must determine which site on the StackExchange network the given question comes from.
 
 Questions are pulled from a random site (of the pre-determined set of sites to pull from) using the StackExchange/StackOverflow API.
