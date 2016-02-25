@@ -63,7 +63,7 @@ function loadQuestion() {
                     }
                 }
 
-                $('.question-container').slideDown(800);
+                $('.question-container').fadeIn(800);
             },
             error: function() {
                 // try again
@@ -89,7 +89,7 @@ function questionClicked() {
     if (!chrisIsTheWeirdOne) {
         chrisIsTheWeirdOne = true;
         $(this).blur();
-        $('.skittles').slideDown();
+        $('.skittles').fadeIn();
         $('a.view-on-se').attr('href', currentQuestion.q.link);
         console.log('link: ' + currentQuestion.q.link);
         var text = $(this).text();
