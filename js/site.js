@@ -38,8 +38,6 @@ function loadQuestion() {
 
                 failures = 0;
 
-                console.log(data);
-
                 currentQuestion = JSON.parse(data);
 
                 if (currentQuestion.has_key == false) {
@@ -91,7 +89,6 @@ function questionClicked() {
         $(this).blur();
         $('.skittles').fadeIn();
         $('a.view-on-se').attr('href', currentQuestion.q.link);
-        console.log('link: ' + currentQuestion.q.link);
         var text = $(this).text();
         if (text === currentQuestion.site) {
             $(this).stop().animate({ backgroundColor: '#82FFAC' }, 'fast', 'linear');
