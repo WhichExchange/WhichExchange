@@ -88,8 +88,10 @@ class Question
         $this->site = $rand_site;
 
         $url = $this->url_form . "order=$order&sort=$sort&site=$rand_site&fromDate=$fromDate";
-        if (@include('Keys.php')) {
-            $key = Keys::$stackOverflowKey;
+
+        if (is_file('keys.json')) {
+            $contents = json_decode(file_get_contents('keys.json'));
+            $key = $contents->stackexchange;
             $url .= "&key=$key";
             $this->has_key = true;
         }
