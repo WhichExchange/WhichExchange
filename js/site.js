@@ -19,6 +19,10 @@ $(function () {
         html: true,
         placement: 'left',
         trigger: 'focus'
+    }).focus(function () {
+        $('#out').select().one('mouseup', function (e) {
+             e.preventDefault();
+         });
     });
     $('[data-toggle="popover"]').popover();
 

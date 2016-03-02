@@ -58,3 +58,7 @@ div.next-question {
     min-width: 100px;
     margin-bottom: 10px;
 }
+
+.settings:focus {
+    outline: none;
+}
