@@ -20,9 +20,7 @@ Then point a web browser at:
     localhost:8000
 
 ## API Key & Rate Limiting
-The API key is internal. The [StackExchange API](https://api.stackexchange.com/) currently allows for around 300 un-keyed requests before it will stop responding to requests, hence the counter on the page. With a basic API key registered for an app, the request increases to about 10,000.
-
-In the future, we'll be looking to have a fully-fledged registration (hopefully removing the request cap) for the app and use that key on the live server where this might be hosted.
+An API key is optional. The [StackExchange API](https://api.stackexchange.com/) currently allows for around 300 un-keyed requests before it will stop responding to requests, hence the counter on the page. With a basic API key registered for an app, the request increases to about 10,000.
 
 ## Can't I just Google the questions?
 Yes, fun-killer.
