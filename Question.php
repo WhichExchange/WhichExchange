@@ -91,9 +91,11 @@ class Question
 
         if (is_file('keys.json')) {
             $contents = json_decode(file_get_contents('keys.json'));
-            $key = $contents->stackexchange;
-            $url .= "&key=$key";
-            $this->has_key = true;
+            if ($contents && array_key_exists('stackexchange', $contents)) {
+                $key = $contents->stackexchange;
+                $url .= "&key=$key";
+                $this->has_key = true;
+            }
         }
 
         // @TODO file_get_contents($uri);
