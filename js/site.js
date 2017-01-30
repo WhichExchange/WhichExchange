@@ -17,7 +17,7 @@ $(function () {
     $('.settings').popover({
         content: generateSettingsPopover(),
         html: true,
-        placement: 'left',
+        placement: 'right',
         trigger: 'focus'
     }).focus(function () {
         $('#out').select().one('mouseup', function (e) {
@@ -81,10 +81,10 @@ function loadQuestion() {
 }
 
 function generateSettingsPopover() {
-    return '<div>Time window:</div><br/>' +
-        '<a href="javascript:void(0)" onclick="oneMonth()" class="btn btn-default btn-time btn-one">1 month</a><br/>' +
-        '<a href="javascript:void(0)" onclick="sixMonths()" class="btn btn-default btn-time btn-six">6 Months</a><br/>' +
-        '<a href="javascript:void(0)" onclick="allTime()" class="btn btn-default btn-time btn-alltime">All Time</a>';
+    return '<div id="timewindowtextdiv">Time Window:</div>' +
+        '<a href="javascript:void(0)" onclick="allTime()" class="btn btn-default btn-time btn-alltime">All Time</a>' +
+        '<a href="javascript:void(0)" onclick="sixMonths()" class="btn btn-default btn-time btn-six">6 Months</a>' +
+        '<a href="javascript:void(0)" onclick="oneMonth()" class="btn btn-default btn-time btn-one">1 Month</a>';
 }
 
 function questionClicked() {
