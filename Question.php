@@ -18,6 +18,7 @@ class Question
     //@Override
     public function __construct()
     {
+        date_default_timezone_set('UTC');
         $this->timeIntervals = array(
             'oneMonth' => strtotime('-30 days'),
             'sixMonths' => strtotime('-180 days'),
