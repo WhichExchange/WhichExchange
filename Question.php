@@ -1,10 +1,12 @@
 <?php
 
+require_once 'Cache.php';
+
 class Question
 {
     private $question_sent = false;
     private $sites = array();
-    private $url_form = "https://api.stackexchange.com/2.2/questions?";
+    private $url_form = "https://api.stackexchange.com/2.2/questions";
     public $has_key = false;
     public $sort = 'votes';
     public $order = 'desc';
@@ -12,6 +14,7 @@ class Question
     public $q = null;
     public $question_choices = null;
     public $quota = null;
+    public $last_question_cached = false;
 
     public $timeIntervals;
 
@@ -62,12 +65,13 @@ class Question
     {
         $sort = $this->sort;
         $order = $this->order;
+        $this->last_question_cached = false;
 
         session_start();
         if (isset($_SESSION['time'])) {
             $fromDate = $this->timeIntervals[$_SESSION['time']];
         } else {
-            $fromDate = $this->timeIntervals['oneMonth'];
+            $fromDate = $this->timeIntervals['allTime'];
         }
 
         if ($this->question_sent === true) {
@@ -88,21 +92,44 @@ class Question
         $rand_site = $this->sites[$rand_site_index];
         $this->site = $rand_site;
 
-        $url = $this->url_form . "order=$order&sort=$sort&site=$rand_site&fromDate=$fromDate";
+        // Notably, does not include key (yet)
+        $url_get_parameters_string = "?order=$order&sort=$sort&site=$rand_site&fromDate=$fromDate";
 
-        if (is_file('keys.json')) {
-            $contents = json_decode(file_get_contents('keys.json'));
-            if ($contents && array_key_exists('stackexchange', $contents)) {
-                $key = $contents->stackexchange;
-                $url .= "&key=$key";
-                $this->has_key = true;
+        // Cache without (before) the key is considered/needed
+        $cache = new Cache();
+        $in_cache = $cache->request_in_cache($url_get_parameters_string);
+        error_log("Request '$url_get_parameters_string' is in cache: " . ($in_cache?"True":"False"));
+
+        if ($in_cache) {
+            $request_as_array = $cache->cache_get($url_get_parameters_string);
+            $request_items = $request_as_array['items'];
+            // so the 'no key' message doesn't show up
+            $this->has_key = true;
+            $this->last_question_cached = true;
+            
+        } else {
+            // Request not in cache.
+
+            // use key if available
+            if (is_file('keys.json')) {
+                $contents = json_decode(file_get_contents('keys.json'));
+                if ($contents && array_key_exists('stackexchange', $contents)) {
+                    $key = $contents->stackexchange;
+                    $key_get_param = "&key=$key";
+                    $this->has_key = true;
+                }
             }
-        }
 
-        // @TODO file_get_contents($uri);
-        $http_request = shell_exec("curl --compressed -s \"$url\"");
-        $request_as_array = json_decode($http_request, true);
-        $request_items = $request_as_array['items'];
+            $url = $this->url_form . $url_get_parameters_string . $key_get_param;
+
+            // @TODO file_get_contents($uri);
+            $http_request = shell_exec("curl --compressed -s \"$url\"");
+            $request_as_array = json_decode($http_request, true);
+            $request_items = $request_as_array['items'];
+            $this->quota = $request_as_array['quota_remaining'];
+
+            $cache->cache_set($url_get_parameters_string, $request_as_array);
+        }
 
         $attempts = 0;
         do {
@@ -115,7 +142,6 @@ class Question
         } while (strpos('"', $question_rand['title']) !== false && $attempts < 50);
 
         $this->q = $question_rand;
-        $this->quota = $request_as_array['quota_remaining'];
 
         $this->getQuestionChoices();
 
@@ -149,3 +175,4 @@ class Question
 
     }
 }
+

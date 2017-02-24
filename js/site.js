@@ -44,10 +44,15 @@ function loadQuestion() {
 
                 currentQuestion = JSON.parse(data);
 
-                if (currentQuestion.has_key == false) {
-                    $('p#quota-info').text('Quota limit remaining: ' + currentQuestion.quota + ' (NO KEY PROVIDED)');
+                if (currentQuestion.last_question_cached == true) {
+                    // If cache was used, don't report info about quota limit.
+                    $('p#quota-info').text('');
                 } else {
-                    $('p#quota-info').text('Quota limit remaining: ' + currentQuestion.quota);
+                    if (currentQuestion.has_key == false) {
+                        $('p#quota-info').text('Quota limit remaining: ' + currentQuestion.quota + ' (NO KEY PROVIDED)');
+                    } else {
+                        $('p#quota-info').text('Quota limit remaining: ' + currentQuestion.quota);
+                    }
                 }
 
 
