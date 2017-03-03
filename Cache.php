@@ -102,7 +102,7 @@ class Cache
         error_log('Time cached:     ' . $entry['entry_time']);
         error_log('Expiration time: ' . strtotime($this->cache_entry_duration, $entry['entry_time']));
         error_log('Current time:    ' . time());
-        if (strtotime('+1 day', $entry['entry_time']) < time()) {
+        if (strtotime($this->cache_entry_duration, $entry['entry_time']) < time()) {
             error_log('Request in cache but expired.');
             return false;
         }
