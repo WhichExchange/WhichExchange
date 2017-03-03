@@ -5,6 +5,7 @@ class Cache
     private $cache_dir = "cache";
     private $cache_file = "question_cache.json";
     private $cache_size_max = 10485760; // 10 MiB
+    private $cache_entry_duration = '+1 day';
 
     private function path_to_cache_file() {
         return "$this->cache_dir/$this->cache_file";
@@ -92,8 +93,24 @@ class Cache
         );
     }
 
+    public function request_in_cache_fresh($request)
+    {
+        if (!$this->request_in_cache($request)) {
+            return false;
+        }
+        $entry = $this->cache_contents_json[$request];
+        error_log('Time cached:     ' . $entry['entry_time']);
+        error_log('Expiration time: ' . strtotime($this->cache_entry_duration, $entry['entry_time']));
+        error_log('Current time:    ' . time());
+        if (strtotime('+1 day', $entry['entry_time']) < time()) {
+            error_log('Request in cache but expired.');
+            return false;
+        }
+        return true;
+    }
+
     // TODO cache freshness (i.e. expires after N days)
-    public function request_in_cache($request)
+    private function request_in_cache($request)
     {
         /*
         foreach ( array_keys($this->cache_contents_json) as &$k) {

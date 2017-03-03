@@ -97,7 +97,7 @@ class Question
 
         // Cache without (before) the key is considered/needed
         $cache = new Cache();
-        $in_cache = $cache->request_in_cache($url_get_parameters_string);
+        $in_cache = $cache->request_in_cache_fresh($url_get_parameters_string);
         error_log("Request '$url_get_parameters_string' is in cache: " . ($in_cache?"True":"False"));
 
         if ($in_cache) {
@@ -109,6 +109,8 @@ class Question
             
         } else {
             // Request not in cache.
+            
+            $key_get_param = "";
 
             // use key if available
             if (is_file('keys.json')) {
@@ -120,6 +122,10 @@ class Question
                 }
             }
 
+            if (!$this->has_key) {
+                error_log("No key provided. API quota will be limited.");
+            }
+
             $url = $this->url_form . $url_get_parameters_string . $key_get_param;
 
             // @TODO file_get_contents($uri);
@@ -127,6 +133,9 @@ class Question
             $request_as_array = json_decode($http_request, true);
             $request_items = $request_as_array['items'];
             $this->quota = $request_as_array['quota_remaining'];
+
+            // If the quota is lower than you expect, double check that your API key is being used correctly
+            error_log("API quota remaining: " . $this->quota);
 
             $cache->cache_set($url_get_parameters_string, $request_as_array);
         }

@@ -46,13 +46,19 @@ function loadQuestion() {
 
                 if (currentQuestion.last_question_cached == true) {
                     // If cache was used, don't report info about quota limit.
-                    $('p#quota-info').text('');
+                    $('p#quota-info').hide().text('');
                 } else {
-                    if (currentQuestion.has_key == false) {
-                        $('p#quota-info').text('Quota limit remaining: ' + currentQuestion.quota + ' (NO KEY PROVIDED)');
+                    if (currentQuestion.quota < 1) {
+                        $('p#quota-info').show().text('Question could not be retrieved. API quota limit exceeded.');
+                    }
+                    /*
+                    if (currentQuestion.has_key == false && currentQuestion.quota > 1) {
+                        $('p#quota-info').text('Question could not be retrieved. API quota limit exceeded.');
+                        //Quota limit remaining: ' + currentQuestion.quota + ' (NO KEY PROVIDED)');
                     } else {
                         $('p#quota-info').text('Quota limit remaining: ' + currentQuestion.quota);
                     }
+                    */
                 }
 
 
