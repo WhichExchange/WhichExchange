@@ -7,6 +7,7 @@ class Question
     private $question_sent = false;
     private $sites = array();
     private $url_form = "https://api.stackexchange.com/2.2/questions";
+    private $key_file = "keys.json";
     public $has_key = false;
     public $sort = 'votes';
     public $order = 'desc';
@@ -113,8 +114,8 @@ class Question
             $key_get_param = "";
 
             // use key if available
-            if (is_file('keys.json')) {
-                $contents = json_decode(file_get_contents('keys.json'));
+            if (is_file($this->key_file)) {
+                $contents = json_decode(file_get_contents($this->key_file));
                 if ($contents && array_key_exists('stackexchange', $contents)) {
                     $key = $contents->stackexchange;
                     $key_get_param = "&key=$key";
