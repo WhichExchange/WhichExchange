@@ -1,6 +1,6 @@
 ## WhichExchange
 
-[Try it out!](http://kwikthinkers.xyz/whichexchange/)
+[Try it out!](https://kwikthinkers.carvelli.io/whichexchange/)
 
 A simple web app game in which the player must determine which site on the StackExchange network the given question comes from.
 
