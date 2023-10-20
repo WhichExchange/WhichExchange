@@ -3,3 +3,4 @@ vendor/
 Keys.php
 keys.json
 img/
+cache/

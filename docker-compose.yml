@@ -1,0 +1,7 @@
+version: '3'
+services:
+  which-exchange:
+    build: .
+    image: which-exchange
+    ports:
+      -  '8081:80'
